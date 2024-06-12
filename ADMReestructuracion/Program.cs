@@ -1,32 +1,65 @@
+using ADMReestructuracion.Auth.BusinessLogic.Configuration;
+using ADMReestructuracion.Auth.BusinessLogic.Mapping;
+using ADMReestructuracion.Auth.DataAccess.Configuration;
+using ADMReestructuracion.Auth.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var app = builder.Build();
+builder.Services.AddControllers();
 
-// Configure the HTTP request pipeline.
-
-var summaries = new[]
+// Configurar DbContext
+builder.Services.AddDbContext<AuthContext>(opt =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-app.Run();
+// Configurar servicios personalizados
+builder.Services.ConfigureAppService();
+builder.Services.ConfigureMappingProfile();
+builder.Services.ConfigureDataService();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+// Configurar CORS
+builder.Services.AddCors(options =>
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
+// Configuración de Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ADMReestructuracion", Version = "v1" });
+});
+
+var app = builder.Build();
+
+// Configurar middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    // Configurar Swagger en desarrollo
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ADMReestructuracion V1");
+        c.RoutePrefix = string.Empty; // Para acceder a Swagger UI en la raíz (opcional)
+    });
 }
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ADMReestructuracion V1");
-        c.RoutePrefix = string.Empty; // Para acceder a Swagger UI en la raíz (opcional)
+        //c.RoutePrefix = string.Empty; // Para acceder a Swagger UI en la raíz (opcional)
     });
 }
 

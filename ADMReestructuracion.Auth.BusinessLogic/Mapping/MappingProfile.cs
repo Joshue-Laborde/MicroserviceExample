@@ -12,8 +12,8 @@ namespace ADMReestructuracion.Auth.BusinessLogic.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Usuario, UsuarioDto>().ForAllMembersIfNotEmpty();
-            CreateMap<Usuario, UsuarioRequest>().ForAllMembersIfNotEmpty();
+            CreateMap<GenUsuario, UsuarioDto>().ForAllMembersIfNotEmpty();
+            CreateMap<GenUsuario, UsuarioRequest>().ForAllMembersIfNotEmpty();
         }
     }
 

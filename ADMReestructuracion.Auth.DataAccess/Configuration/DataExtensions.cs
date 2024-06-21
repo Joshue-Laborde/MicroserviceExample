@@ -1,11 +1,7 @@
 ﻿using ADMReestructuracion.Auth.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ADMReestructuracion.Auth.DataAccess.Configuration
 {
@@ -16,5 +12,16 @@ namespace ADMReestructuracion.Auth.DataAccess.Configuration
             services.AddScoped<DbContext, AuthContext>();
             services.AddScoped<AuthContext>();
         }
+
+        /// <summary>
+        /// Metodo de extension para configurar el dbcontext
+        /// </summary>
+        /// <param name="builder"></param>
+        //public static void ConfigureDatabase(this WebApplicationBuilder builder)
+        //{
+        //    var options = builder.Services.ConfiguracionDBcontext("EasyFCPC", builder.Configuration);
+        //    builder.Services.AddDbContext<AuthContext>(options);
+
+        //}
     }
 }

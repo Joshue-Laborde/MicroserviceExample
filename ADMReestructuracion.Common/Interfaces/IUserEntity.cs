@@ -9,14 +9,30 @@ namespace ADMReestructuracion.Common.Interfaces
 {
     public interface IUserEntity
     {
-        int IdUsuario { get; set; }
-        string Nombres { get; set; }
-        string Apellidos { get; set; }
-        string correo { get; set; }
-        string clave { get; set; }
-        string Token { get; set; }
-        bool Activo { get; set; }
-        ICompanyEntity Empresa { get; }
+        public int IdUsuario { get; set; }
+
+        public int IdTipoIdentificacion { get; set; }
+
+        public int? IdTipoSangre { get; set; }
+
+        public string Nombres { get; set; }
+
+        public string Apellidos { get; set; }
+
+        public string Correo { get; set; }
+
+        public string CodigoUsuario { get; set; }
+
+        //public string Clave { get; set; }
+
+        public bool? Ad { get; set; }
+
+        public bool? Qr { get; set; }
+
+        public string RutaQr { get; set; }
+
+        public bool Activo { get; set; }
+        //ICompanyEntity Empresa { get; }
 
     }
 

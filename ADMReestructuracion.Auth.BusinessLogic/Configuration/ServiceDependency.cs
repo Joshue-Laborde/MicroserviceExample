@@ -17,7 +17,6 @@ namespace ADMReestructuracion.Auth.BusinessLogic.Configuration
         public static void ConfigureAppService(this IServiceCollection services)
         {
             services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<IEntityRepository<GenUsuario>, EntityRepository<GenUsuario>>();
 
         }
     }

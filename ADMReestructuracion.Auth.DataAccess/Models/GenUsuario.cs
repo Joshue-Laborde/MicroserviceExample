@@ -29,7 +29,7 @@ public partial class GenUsuario
 
     public string RutaQr { get; set; }
 
-    public bool? Activo { get; set; }
+    public bool Activo { get; set; }
 
     public DateTime? FechaRegistro { get; set; }
 

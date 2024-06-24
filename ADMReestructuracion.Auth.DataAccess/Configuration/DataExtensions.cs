@@ -1,5 +1,8 @@
 ﻿using ADMReestructuracion.Auth.DataAccess.Repositories;
+using ADMReestructuracion.Common.Data.Extensions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -17,11 +20,15 @@ namespace ADMReestructuracion.Auth.DataAccess.Configuration
         /// Metodo de extension para configurar el dbcontext
         /// </summary>
         /// <param name="builder"></param>
-        //public static void ConfigureDatabase(this WebApplicationBuilder builder)
-        //{
-        //    var options = builder.Services.ConfiguracionDBcontext("EasyFCPC", builder.Configuration);
-        //    builder.Services.AddDbContext<AuthContext>(options);
+        public static void ConfigureDatabase(this WebApplicationBuilder builder)
+        {
+            //var options = builder.Services.ConfiguracionDBcontext("ADM", builder.Configuration);
+            //builder.Services.AddDbContext<AuthContext>(options);
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            Console.WriteLine($"Connection String: {connectionString}"); // Log para verificar la cadena de conexión
+            builder.Services.AddDbContext<AuthContext>(options =>
+                options.UseSqlServer(connectionString));
 
-        //}
+        }
     }
 }

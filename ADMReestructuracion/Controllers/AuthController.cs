@@ -1,13 +1,12 @@
 ﻿using ADMReestructuracion.Auth.Domain.Interface;
 using ADMReestructuracion.Auth.Domain.Models;
-using ADMReestructuracion.Common.Interfaces;
 using ADMReestructuracion.Common.Http.Extensions;
-
-using Microsoft.AspNetCore.Authentication.Cookies;
+using ADMReestructuracion.Common.Interfaces;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ADMReestructuracion.Auth.Api.Controllers
 {
@@ -54,7 +53,7 @@ namespace ADMReestructuracion.Auth.Api.Controllers
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                 });
 
-                // Almacenar información adicional en la sesión
+                // Almacenar información adicional en la sesión en el servidor
                 HttpContext.Session.SetObject("Usuario", result.Result);
 
                 return Ok(result);

@@ -48,10 +48,13 @@ namespace ADMReestructuracion.Common.Startup.Configurations
             // Configurar CORS
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                });
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:64927")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
             });
 
             builder.ConfigureExtensionServices();

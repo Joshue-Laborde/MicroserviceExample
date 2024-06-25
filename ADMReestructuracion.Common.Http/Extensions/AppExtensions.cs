@@ -3,12 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ADMReestructuracion.Common.Http.Extensions
 {
@@ -18,7 +13,7 @@ namespace ADMReestructuracion.Common.Http.Extensions
         {
             var routePrefix = settings["RoutePrefix"] ?? "";
 
-            app.UseCors("allReady");
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseDeveloperExceptionPage();
 

@@ -12,7 +12,6 @@ namespace ADMReestructuracion.Common.Startup.Dependencies
     {
         public static void ConfigureExtensionServices(this WebApplicationBuilder builder)
         {
-            //builder.Services.AddTransient<IFileHandler, FileHandler>();
             // Inyeccion de servicios convensionales
             builder.Services.AddTransient(typeof(IEntityRepository<>), typeof(EntityRepository<>));
             builder.Services.AddTransient<ITools, Tools>();

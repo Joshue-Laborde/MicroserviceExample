@@ -1,9 +1,4 @@
-using ADMReestructuracion.Auth.BusinessLogic.Configuration;
-using ADMReestructuracion.Auth.BusinessLogic.Mapping;
-using ADMReestructuracion.Auth.DataAccess.Configuration;
-using ADMReestructuracion.Common.Startup.Configurations;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using System.Reflection;
 
 ComonStartup.Assembly = Assembly.GetExecutingAssembly();
@@ -56,7 +51,7 @@ var app = ComonStartup.Create(builder =>
     builder.ConfigureDatabase();
 });
 
-app.UseRouting();
+//app.UseRouting();
 //app.UseCors("AllowSpecificOrigin");
 // Configurar middleware de autenticación y autorización
 app.UseAuthentication();

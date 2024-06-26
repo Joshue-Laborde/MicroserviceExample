@@ -1,14 +1,8 @@
-﻿using ADMReestructuracion.Auth.DataAccess.Models;
-using ADMReestructuracion.Auth.Domain.Interface;
-using ADMReestructuracion.Auth.Domain.Models;
-using ADMReestructuracion.Common.Extensions;
-using ADMReestructuracion.Common.Interfaces;
-using ADMReestructuracion.Common.Operations;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System.Text;
 using System.Net;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace ADMReestructuracion.Auth.BusinessLogic.Service
 {
@@ -74,7 +68,6 @@ namespace ADMReestructuracion.Auth.BusinessLogic.Service
             try
             {
                 var users = _usuario.Search(x => x.Activo == true && x.CodigoUsuario.Length > 1);
-                //var result = _mapper.Map<List<UsuarioDto>>(users);
 
                 return await users.ToResultListAsync<GenUsuario, UsuarioDto>(page, pageSize);
 

@@ -1,5 +1,4 @@
 ﻿using ADMReestructuracion.Auth.DataAccess.Repositories;
-using ADMReestructuracion.Common.Data.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

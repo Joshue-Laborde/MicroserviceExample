@@ -1,11 +1,8 @@
-﻿using ADMReestructuracion.Auth.Domain.Interface;
-using ADMReestructuracion.Auth.Domain.Models;
-using ADMReestructuracion.Common.Http.Extensions;
-using ADMReestructuracion.Common.Interfaces;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using System.Security.Claims;
 
 namespace ADMReestructuracion.Auth.Api.Controllers
@@ -35,28 +32,31 @@ namespace ADMReestructuracion.Auth.Api.Controllers
             {
                 var result = await _usuarioService.Login(name, password);
 
-                if (result == null) return NotFound();
-
-                // Crear claims para el usuario autenticado
-                var claims = new List<Claim>
+                if(result.Success)
                 {
-                    new Claim(ClaimTypes.Name, name),
-                    new Claim(ClaimTypes.Email, result.Result.Correo ?? "app@ipsp-produccion.com"),
-                };
+                    // Crear claims para el usuario autenticado
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, name),
+                        new Claim(ClaimTypes.Email, result.Result.Correo ?? "app@ipsp-produccion.com"),
+                    };
 
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // Crear cookie de autenticación
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
-                });
+                    // Crear cookie de autenticación
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
+                    });
 
-                // Almacenar información adicional en la sesión en el servidor
-                HttpContext.Session.SetObject("Usuario", result.Result);
+                    // Almacenar información adicional en la sesión en el servidor
+                    HttpContext.Session.SetObject("Usuario", result.Result);
 
-                return Ok(result);
+                    return Ok(result);
+                }
+
+                return StatusCode(result);
             }
             catch (Exception ex)
             {

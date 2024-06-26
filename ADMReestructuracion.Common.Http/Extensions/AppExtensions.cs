@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System.Net;
 
 namespace ADMReestructuracion.Common.Http.Extensions
@@ -13,12 +14,11 @@ namespace ADMReestructuracion.Common.Http.Extensions
         {
             var routePrefix = settings["RoutePrefix"] ?? "";
 
+            app.UseRouting();
+
             app.UseCors("AllowSpecificOrigin");
 
-            app.UseDeveloperExceptionPage();
-
-            app.UseSwagger();
-            //  
+            app.UseSwagger();           
             app.UseSwaggerUI(options =>
             {
                 var swaggerEndpoint = $"{routePrefix}/swagger/v1/swagger.json";
@@ -27,14 +27,24 @@ namespace ADMReestructuracion.Common.Http.Extensions
                 options.RoutePrefix = string.Empty;
             });
 
-            app.UseStatusCodePagesWithReExecute($"{routePrefix}/error/{0}");
-            app.UseExceptionHandler($"{routePrefix}/error");
-            app.UseHeaderPropagation();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler($"{routePrefix}/error");
+                app.UseStatusCodePagesWithReExecute($"{routePrefix}/error/{0}");
+                app.UseHsts();
+            }
+
             app.UseHttpsRedirection();
-            app.UseRouting();
-            //app.UseAuthentication();
-            app.UseStatusCodePages(async context => await context.HttpContext.Response.WriteAsJsonAsync(new OperationResult((HttpStatusCode)context.HttpContext.Response.StatusCode)));
             app.UseHeaderPropagation();
+            //app.UseAuthentication();
+            app.UseStatusCodePages(async context =>
+            {
+                await context.HttpContext.Response.WriteAsJsonAsync(new OperationResult((HttpStatusCode)context.HttpContext.Response.StatusCode));
+            });
 
         }
     }
